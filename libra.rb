@@ -119,7 +119,7 @@ html
     p #{@library.name} #{@library.title} #{@library.author} #{@library.publisher} #{@library.year}
     form action="/#{@library.id}" method="POST"
       input type="hidden" name="_method" value="DELETE"
-      input type="submit" value="Delete"
+      input type="submit" value=" 削除 "
     a href="/" キャンセル
 
 @@ form
