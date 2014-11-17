@@ -1,3 +1,4 @@
+require 'mechanize'
 module ComicStrategy
 
   @@books_cache
