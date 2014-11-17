@@ -41,86 +41,77 @@ delete ('/:id') do
 end
 
 __END__
-@@ index
+@@ layout
 doctype html
 html
   head
-    title Libra
-  body
-    h1 検索対象の一覧
-    a href="/new" 新規作成
-  - if libraries.any?
-    table
-      thead
+    title 書籍巡回
+  == yield
+
+@@ index
+body
+  h1 検索対象の一覧
+  a href="/new" 新規作成
+- if libraries.any?
+  table
+    thead
+      tr
+        th 検索対象
+        th 書名
+        th 著者
+        th 出版社
+        th 出版年
+        th 編集
+        th 削除
+        th 登録済み書籍
+    tbody
+      - for library in libraries
         tr
-          th 検索対象
-          th 書名
-          th 著者
-          th 出版社
-          th 出版年
-          th 編集
-          th 削除
-          th 登録済み書籍
-      tbody
-        - for library in libraries
-          tr
-            td =  library.name
-            td =  library.title
-            td = library.author
-            td = library.publisher
-            td = library.year
-            td
-              a href = (library.id.to_s + "/edit") 編集
-            td
-              a href = (library.id.to_s + "/delete") 削除
-            - for book in library.books
-              tr
-                td
-                td
-                td
-                td
-                td
-                td
-                td
-                td = book.title
-  - else
-    p 検索対象が登録されていません
+          td =  library.name
+          td =  library.title
+          td = library.author
+          td = library.publisher
+          td = library.year
+          td
+            a href = (library.id.to_s + "/edit") 編集
+          td
+            a href = (library.id.to_s + "/delete") 削除
+          - for book in library.books
+            tr
+              td
+              td
+              td
+              td
+              td
+              td
+              td
+              td = book.title
+- else
+  p 検索対象が登録されていません
 
 @@ new
-doctype html
-html
-  head
-    title Libra
-  body
-    h1 検索対象の作成
-    form action="/" method="POST"
-      input type="submit" value=" 作成 "
-      == slim :form 
+body
+  h1 検索対象の作成
+  form action="/" method="POST"
+    input type="submit" value=" 作成 "
+    == slim :form 
 
 @@ edit
-doctype html
-html
-  head
-    title Libra
-  body
-    h1 検索対象の編集
-    form action="/#{@library.id}" method="POST"
-      input type="hidden" name="_method" value="PUT"
-      input type="submit" value=" 更新 "
-      == slim :form
+body
+  h1 検索対象の編集
+  form action="/#{@library.id}" method="POST"
+    input type="hidden" name="_method" value="PUT"
+    input type="submit" value=" 更新 "
+    == slim :form
 
 @@ delete
-doctype html
-html
-  head
-    title Libra
-  body
-    h1 以下を削除してもよろしいですか？
-    p #{@library.name} #{@library.title} #{@library.author} #{@library.publisher} #{@library.year}
-    form action="/#{@library.id}" method="POST"
-      input type="hidden" name="_method" value="DELETE"
-      input type="submit" value=" 削除 "
-    a href="/" キャンセル
+body
+  h1 以下を削除してもよろしいですか？
+  p #{@library.name} #{@library.title} #{@library.author} #{@library.publisher} #{@library.year}
+  form action="/#{@library.id}" method="POST"
+    input type="hidden" name="_method" value="DELETE"
+    input type="submit" value=" 削除 "
+  a href="/" キャンセル
 
 @@ form
       table
