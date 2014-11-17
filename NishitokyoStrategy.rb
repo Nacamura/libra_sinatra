@@ -1,5 +1,5 @@
 require 'mechanize'
-require 'MyGmail'
+load 'MyGmail.rb'
 module NishitokyoStrategy
 #  include LogInterceptor
 
