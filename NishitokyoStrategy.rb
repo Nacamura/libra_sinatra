@@ -1,4 +1,5 @@
 require 'mechanize'
+require 'MyGmail'
 module NishitokyoStrategy
 #  include LogInterceptor
 
@@ -45,7 +46,7 @@ module NishitokyoStrategy
     count_xml = mechanize_res.search("p")[2].search("span")[1]
     if(count_xml) then hit_count = count_xml.text.gsub(/件中.*/, "").to_i end
     if(hit_count > 100)
-      AlartMailer.alart_mail(self.to_s + " 検索件数が#{hit_count}件です。100件目以降は通知されません。").deliver
+      MyGmail.new.send("検索件数上限超過", "検索件数が#{hit_count}件です。100件目以降は通知されません。")
     end
   end
 
