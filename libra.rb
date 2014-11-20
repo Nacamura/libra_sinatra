@@ -17,6 +17,11 @@ get ('/:id/edit') do
   slim :edit
 end
 
+get ('/:id/show') do
+  @library = Library.find(params[:id])
+  slim :show
+end
+
 get ('/:id/delete') do
   @library = Library.find(params[:id])
   slim :delete
@@ -63,7 +68,7 @@ body
         th 出版年
         th 編集
         th 削除
-        th 登録済み書籍
+        th 詳細
     tbody
       - for library in libraries
         tr
@@ -76,16 +81,8 @@ body
             a href = (library.id.to_s + "/edit") 編集
           td
             a href = (library.id.to_s + "/delete") 削除
-          - for book in library.books
-            tr
-              td
-              td
-              td
-              td
-              td
-              td
-              td
-              td = book.title
+          td
+            a href = (library.id.to_s + "/show") 詳細
 - else
   p 検索対象が登録されていません
 
@@ -134,3 +131,37 @@ body
             input.publisher type="text" name="library[publisher]" value="#{@library.publisher}" size="16"
           td
             input.year type="text" name="library[year]" value="#{@library.year}" size="16"
+
+@@ show
+body
+  table
+    thead
+      tr
+        th 検索対象
+        th 書名
+        th 著者
+        th 出版社
+        th 出版年
+    tbody
+      tr
+        td =  @library.name
+        td =  @library.title
+        td = @library.author
+        td = @library.publisher
+        td = @library.year
+  table
+    thead
+      tr
+        th 書名
+        th 著者
+        th 出版社
+        th 出版年
+        th リンク/発売日
+    tbody
+      - for book in @library.books
+        tr
+          td = book.title
+          td = book.author
+          td = book.publisher
+          td = book.year
+          td = book.release
