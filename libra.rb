@@ -51,6 +51,8 @@ doctype html
 html
   head
     title 書籍巡回
+  body
+    a href = ("/") トップに戻る
   == yield
 
 @@ index
