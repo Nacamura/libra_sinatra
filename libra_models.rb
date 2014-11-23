@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 require 'sinatra'
 require 'mongoid'
 Mongoid.load!('mongoid.yml')
@@ -83,13 +84,8 @@ class Library
   def notify(new_books)
     mail_body = ""
     new_books.each do |b|
-      if(b.release.include?("http")) then
-        mail_body += "著者, 書名\r\n"
-        mail_body += b.author + ', ' + b.title + "\r\n"
-      else
-        mail_body += "著者, 書名, 発売日\r\n"
-        mail_body += b.author + ', ' + b.title + ', ' + b.release + "\r\n"
-      end
+      mail_body += "著者, 書名, URL/発売日\r\n"
+      mail_body += b.author + ', ' + b.title + ', ' + b.release + "\r\n"
     end
     MyGmail.new.send('新しい本が登録されました', mail_body)
   end
